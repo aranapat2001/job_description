@@ -1,0 +1,249 @@
+<html>
+<head>
+    <title>Job Post Writer - {{prof}}</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='TheAdeccoGroup-favicon.ico') }}">
+    <script> 
+        function copyToClip(str) {
+            navigator.clipboard.writeText(document.getElementById('chat-response').innerHTML);
+            document.querySelector('.copy-text').classList.add("active");
+            window.getSelection().removeAllRanges();
+            setTimeout(function() {
+                document.querySelector('.copy-text').classList.remove("active"); 
+            }, 2500)
+        };
+    </script>
+</head>
+<body>
+    <main>
+        <div style="float: right;">
+            <form method="get" target="_blank" action="https://forms.office.com/e/34TcZMHaUp">
+                <button type="submit" class="compute-button">Feedback!</button>
+            </form>
+        </div>
+        <div class="row" style="justify-content: center; gap: 5%">
+            <h1>Job Post Writer</h1>
+            <img style="align-self: center" src="{{ url_for('static', filename='images/The Adecco Group Horizontal.png') }}" alt="Adecco Logo" height="60"/>
+        </div>
+        <div class="row" style="flex-wrap: wrap; gap: 20px;">
+            <div class="blue-border" style="flex: 2"> 
+                <pre><span id="chat-response">{{chat_response}}</span></pre>
+            </div>
+            <div style="flex: 1">
+                <h2>Riassunto Campi</h2>
+                <div class="row blue-border" style="flex-direction: column">
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Numero di persone:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{num}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Professione ricercata:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{prof}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Data inizio contratto:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{data_inizio}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Data fine contratto:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{data_fine}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Durata contratto:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{durata}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Tipo di contratto:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{tipoContratto}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Provincia del luogo di lavoro:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{provincia}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Comune del luogo di lavoro:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{comune}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Soft skill del candidato:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{soft_skill}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Hard skill del candidato:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{hard_skill}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Requisiti per il candidato:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{requisiti}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Anni di esperienza:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{anni}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Disponibilità oraria:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{disp_oraria}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Titolo di studio:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{titolo_studio}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Responsabilità del candidato:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{responsabilita}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Benefici per il candidato:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{benefici}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Settore industriale cliente:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{settore_cliente}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Dettagli aggiuntivi cliente:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{dettagli}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">CCNL:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{ccnl}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Retribuzione:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{retribuzione}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Tono e registro dell'offerta:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{tono}}</div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Lingua dell'annuncio:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;">{{lingua}}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem;"></div>
+                <h2>Link Utili</h2>
+                <div class="row blue-border" style="flex-direction: column">
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Informativa sulla privacy:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;"><a href="https://www.adecco.it/privacy-policy" target="_blank">Link</a></div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Facsimile di domanda:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;"><a href="https://www.adecco.it/~/media/adeccogroup/brands/adecco-global-2016/italy/media/facsimile_domanda_candidatura_rev4_20180423.doc?la=it-it&hash=E12DB717E9BED7EE926D2072EA9189FA" target="_blank">Link</a></div>
+                    </div>
+                    <div class="jpp-output-fields">
+                        <div class="column-left-label" style="flex: 2;">
+                            <label class = "label-jpp">Phishing:</label>
+                        </div>
+                        <div class="column-right-input" style="flex: 1;"><a href="https://www.adecco.it/phishing">Link</a></div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem;"></div>
+                <div class="row copy-text blue-border" style="flex-wrap: wrap; justify-content: space-evenly;">
+                    <div class="dropdown" name="copy-in">
+                        <div class="select-copy-in" name="copy-in">
+                            <span name="copy-in">Copia in:</span>
+                            <div class="caret" name="copy-in"></div>
+                        </div>
+                        <ul class="menu" name="copy-in">
+                            <li>Rephraser</li>
+                            <li>IQG</li>
+                        </ul>
+                    </div>
+                    <button onclick="copyToClip()">Copia Annuncio</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script type=text/javascript>
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const select = dropdown.querySelector('.select-copy-in');
+        const caret = dropdown.querySelector('.caret');
+        const menu = dropdown.querySelector('.menu');
+        const options = dropdown.querySelectorAll('.menu li')
+        const selected = dropdown.querySelector('.selected')
+
+        select.addEventListener('click', () => {
+            caret.classList.toggle('caret-rotate');
+            menu.classList.toggle('menu-open');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.getAttribute('name') != dropdown.getAttribute('name')) {
+                menu.classList.remove('menu-open');
+                caret.classList.remove('caret-rotate');
+            }
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                var generatedText = document.getElementById('chat-response').innerText
+                    option.classList.remove('active');
+                    if (option.innerText == 'Rephraser') {
+                        w = window.open('/jpr',name='_blank')
+                        w.onload = function () {
+                            w.document.getElementById('textbox').value = generatedText
+                        }
+                    }
+                    else {
+                        w = window.open('/iqg',name='_blank') 
+                        w.onload = function () {
+                            w.document.getElementById('JP-text').value = generatedText
+                        }
+                    }
+            });
+        });
+    });
+</script>
+</html>

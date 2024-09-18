@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Interfaz Job Posting</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='TheAdeccoGroup-favicon.ico') }}">
+</head>
+<body style="padding: 30px 0px 10px 0px;">
+    <main>
+        <div>
+            <img  src="{{ url_for('static', filename='images/The Adecco Group Brand.png') }}" alt="Adecco Logo" height="160"/>
+        </div>
+        <h1>Job Posting App</h1>
+        <h2>Generador de Descripciones de Ofertas de Trabajo mediante IA</h2>
+        <form method="get">    
+            <div class="row" style="flex-wrap: wrap; justify-content: space-evenly">
+                <div class="tooltip">
+                    <button type="submit" formaction="{{ url_for('jpp_input') }}" class="compute-button">¡Empezar!</button>
+                    <span class="tooltiptext">Escribe automaticamente un anuncio de trabajo a partir de la información proporcionada como parametros</span>
+                </div>
+            </div>
+        </form>
+        <div class="row" style="justify-content: center;width: 100%; position: absolute;bottom: 0; height: 5rem; border-top: 1.5px var(--color-base) dotted; font-family: Neutraface; font-size: 18px;">
+            <p>El contenido generado por esta herramienta está basado en IA generativa.<br>Se recomienda repasar y corregir de forma manual todo el contenido generado.</p>
+        </div>
+     </main>      
+   </body>
+</html>

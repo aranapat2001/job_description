@@ -1,0 +1,509 @@
+<html>
+<head>
+    <title>Generador Job Post Principal</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='TheAdeccoGroup-favicon.ico') }}">
+    <script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.0.1/mammoth.browser.min.js"></script>    <script type=text/javascript> function changeText(el) {document.getElementById('template').value = el.value;}</script>
+</head>
+<body>
+    <main>
+        <!-- <div style="float: right;">
+            <form method="get" target="_blank" action="https://forms.office.com/e/34TcZMHaUp">
+                <button type="submit" class="compute-button">Feedback!</button>
+            </form>
+        </div> -->
+        <div class="row pt-5" id="instructions" style="display: none;">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 p-1 pt-0">
+                                <h3 class="" style="border-bottom: none;">Funcionalidades</h3>
+                                <ul class="" style="text-align: justify; font-family: 'Neutraface'; margin-right: 20px; font-size: 18px;">
+                                    <li class="list-group-item"><b>Escribir una oferta de trabajo</b>: generar descripciones de puestos precisas para el rol específico para el que está reclutando.</li>
+                                    <li class="list-group-item"><b>Resumir la oferta de trabajo</b>: resumir de forma compacta la oferta previamente generada para enviar a los candidatos.</li>
+                                    <li class="list-group-item"><b>Generar preguntas para la entrevista</b>: sugerir preguntas de preselección adecuadas en función de la descripción del puesto.</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <h3 class="" style="border-bottom: none;">Instrucciones</h3>
+                                <ol class="" style="text-align: justify; font-family: 'Neutraface'; margin-left: 0; font-size: 18px;">
+                                    <li>Rellena los campos obligatorios (marcados con un <span class="text-danger">*</span>)
+                                    <li>Completa otros campos si quieres que estén incluidos en la oferta.</li>
+                                    <li>Pulsa el botón "Generar Oferta de Trabajo". </li>
+                                    <li> Si desea restablecer los campos, pulsa "Resetear Parámetros".</li>
+                                    <li>Una vez generada la oferta de trabajo, se puede generar el resumen y las preguntas.</li>
+                                    <li>Pulsando de nuevo en generar, se crea una nueva versión de la oferta de trabajo.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="justify-content: center; gap: 5%">
+        <img style="align-self: center" src="{{ url_for('static', filename='images/The Adecco Group Brand.png') }}" alt="Adecco Logo" height="160"/>
+        </div>
+        <div class="row" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="flex-grow: 1; text-align: center; margin: 0;">Generador de Ofertas de Trabajo</h1>
+            <img style="margin-left: -50px; margin-right: 10px; cursor: pointer;"
+                 src="{{ url_for('static', filename='images/info-circle.svg') }}" height="45"
+                 onclick="showInstructions(this);">
+        </div>
+        <div class="container">
+            <div class="row pt-3">
+                <div class="col-md-7">
+                    <form class="row" method="post" id="upper-form">
+                        <h3>Información del Puesto de Trabajo</h3>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="profession">
+                                    Puesto de Trabajo <span class="text-danger">*</span>
+                                    <i class="fas fa-info-circle info-icon" title="Título del puesto de trabajo."></i>
+                                </label>
+                                <input type="text" class="form-control default-input" id="profession"
+                                    placeholder="Ej. Repartidor de mercancias" value="{{profession}}" required name="profession"
+                                    minlength="4" maxlength="40" oninput="updateCharacterCount();" onblur="addHFIfNeeded()">
+                                <div id="charCount" class="text-secondary char-count-position">0/40</div>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="num-employees">
+                                    Número de Trabajadores <span class="text-danger">*</span>
+                                    <i class="fas fa-info-circle info-icon" title="Número de personas requeridas en la oferta."></i>
+                                </label>
+                                <input type="text" class="form-control default-input" id="num-employees"
+                                    placeholder="Ej. 1" value="{{num_employees}}" required name="num_employees">
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label-province text-dark" for="city">
+                                    Localidad <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control default-input" id="city"
+                                    placeholder="Ej. Bilbao" value="{{city}}" name="city" required>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="province">
+                                    Provincia 
+                                </label>
+                                <input list="provinces" class="form-list default-input round-corners" id="province"
+                                    placeholder="Ej. Vizcaya" value="{{province}}" name="province">
+                                    <datalist id="provinces" class="custom-datalist">
+                                        <option value="Álava">
+                                        <option value="Albacete">
+                                        <option value="Alicante">
+                                        <option value="Almería">
+                                        <option value="Asturias">
+                                        <option value="Ávila">
+                                        <option value="Badajoz">
+                                        <option value="Baleares">
+                                        <option value="Barcelona">
+                                        <option value="Burgos">
+                                        <option value="Cáceres">
+                                        <option value="Cádiz">
+                                        <option value="Cantabria">
+                                        <option value="Castellón">
+                                        <option value="Ceuta">
+                                        <option value="Ciudad Real">
+                                        <option value="Córdoba">
+                                        <option value="Cuenca">
+                                        <option value="Gerona">
+                                        <option value="Granada">
+                                        <option value="Guadalajara">
+                                        <option value="Guipúzcoa">
+                                        <option value="Huelva">
+                                        <option value="Huesca">
+                                        <option value="Jaén">
+                                        <option value="La Coruña">
+                                        <option value="La Rioja">
+                                        <option value="Las Palmas">
+                                        <option value="León">
+                                        <option value="Lérida">
+                                        <option value="Lugo">
+                                        <option value="Madrid">
+                                        <option value="Málaga">
+                                        <option value="Melilla">
+                                        <option value="Murcia">
+                                        <option value="Navarra">
+                                        <option value="Ourense">
+                                        <option value="Palencia">
+                                        <option value="Pontevedra">
+                                        <option value="Salamanca">
+                                        <option value="Segovia">
+                                        <option value="Sevilla">
+                                        <option value="Soria">
+                                        <option value="Tarragona">
+                                        <option value="Tenerife">
+                                        <option value="Teruel">
+                                        <option value="Toledo">
+                                        <option value="Valencia">
+                                        <option value="Valladolid">
+                                        <option value="Vizcaya">
+                                        <option value="Zamora">
+                                        <option value="Zaragoza">
+                                    </datalist>
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="client-sector">
+                                    Sector
+                                    <i class="fas fa-info-circle info-icon" title="Industria correspondiente al puesto de trabajo."></i>
+                                </label>
+                                <input type="text" class="form-control default-input" id="client-sector"
+                                    placeholder="Ej. Metalurgia" value="{{client_sector}}" name="client_sector">
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="client-url">
+                                    URL Cliente
+                                    <i class="fas fa-info-circle info-icon" title="Página web del cliente para extraer una descripción de la empresa."></i>
+                                </label>
+                                <input type="text" class="form-control default-input" id="client-url"
+                                    placeholder="Ej. https://gxo.com/es/" value="{{client_url}}" name="client_url">
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-4 p-1 pt-0">
+                                <label class="custom-label text-dark" for="contract-type">
+                                    Tipo de Contrato
+                                </label>
+                                <select class="form-select default-input" id="contract-type" name="contract_type" value="{{contract_type}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="indefinido" {% if contract_type == 'indefinido' %}selected{% endif %}>Indefinido</option>
+                                    <option value="temporal" {% if contract_type == 'temporal' %}selected{% endif %}>Temporal</option>
+                                    <option value="temporal a indefinido" {% if contract_type == 'temporal a indefinido' %}selected{% endif %}>Temporal a Indefinido</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 p-1 pt-0">
+                                <label class="custom-label text-dark" for="work-rate">
+                                    Tipo de Jornada
+                                </label>
+                                <select class="form-select default-input" id="work-rate" name="work_rate" value="{{work_rate}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="completa" {% if work_rate == 'completa' %}selected{% endif %}>Completa</option>
+                                    <option value="parcial" {% if work_rate == 'parcial' %}selected{% endif %}>Parcial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 p-1 pt-0">
+                                <label class="custom-label text-dark" for="schedule">
+                                    Horario
+                                </label>
+                                <select class="form-select  default-input" id="schedule" name="schedule" value="{{schedule}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="abierto" {% if schedule == 'abierto' %}selected{% endif %}>Abierto</option>
+                                    <option value="fin de semana" {% if schedule == 'fin de semana' %}selected{% endif %}>Fin de semana</option>
+                                    <option value="mañana" {% if schedule == 'mañana' %}selected{% endif %}>Mañanas</option>
+                                    <option value="tarde" {% if schedule == 'tarde' %}selected{% endif %}>Tardes</option>
+                                    <option value="noche" {% if schedule == 'noche' %}selected{% endif %}>Noche</option>
+                                    <option value="forma rotativa" {% if schedule == 'forma rotativa' %}selected{% endif %}>Rotativo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0 hidden" id="startDateInputContainer">
+                                <label class="custom-label text-dark" for="start-date">
+                                    Fecha de inicio del Contrato
+                                </label>
+                                <div class="row" style="justify-content: space-between;">
+                                    <input type="date" class="default-input" id="start-date" name="start_date" value="{{start_date}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0 hidden" id="endDateInputContainer">
+                                <label class="custom-label text-dark" for="end-date">
+                                    Fecha de finalización del Contrato
+                                </label>
+                                <div class="row" style="justify-content: space-between;">
+                                    <input type="date" class="default-input" id="end-date" name="end_date" value="{{end_date}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-4 p-1 pt-0">
+                                <label class="custom-label text-dark" for="freq-pay">
+                                    Frecuencia Retribución
+                                </label>
+                                <select class="form-select default-input" id="freq-pay" name="freq_pay" value="{{freq_pay}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="hora" {% if freq_pay == 'hora' %}selected{% endif %}>Hora</option>
+                                    <option value="día" {% if freq_pay == 'día' %}selected{% endif %}>Diaria</option>
+                                    <option value="mes" {% if freq_pay == 'mes' %}selected{% endif %}>Mensual</option>
+                                    <option value="año" {% if freq_pay == 'año' %}selected{% endif %}>Anual</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 p-1 pt-0 hidden" id="retribucion">
+                                <label class="custom-label text-dark hidden" for="pay">
+                                    Retribución
+                                </label>
+                                <div class="row plr-10p " style="justify-content: left;">
+                                    <label class="custom-label label-price" style="text-align: center;">Desde</label>
+                                    <input type="text" class="form-control default-input col-md-3 p-1 pt-0" id="min-pay"
+                                        placeholder="Ej. 30000" value="{{min_pay}}" name="min_pay" style="padding: 15px !important;">
+                                    <label class="custom-label label-price" style="text-align: center;"> hasta </label>
+                                    <input type="text" class="col-md-3 p-1 pt-0 form-control default-input" id="max-pay"
+                                        placeholder="Ej. 35000" value="{{max_pay}}" name="max_pay" style="padding: 15px !important;">
+                                    <label class="custom-label label-price" style="text-align: center;" id="freq-eur">€</label>
+                                </div>
+                                <div class="row plr-10p" style="justify-content: left;">
+                                    <label class="custom-label label-price hidden" style="text-align: center;" id="label-bonus-1">Bonus</label>
+                                    <input type="text" class="col-md-3 p-1 pt-0 form-control default-input hidden" id="bonus"
+                                        placeholder="Ej. 2000" value="{{bonus}}" name="bonus" style="padding: 15px !important;">
+                                    <label class="custom-label label-price hidden" style="text-align: center;" id="label-bonus-2">€</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-12 p-1 pt-0">
+                                <label class="custom-label text-dark" for="benefits-input">
+                                    Beneficios <i class="fas fa-info-circle info-icon" title="Agrega beneficios de la lista o añade uno nuevo escribiéndolo y pulsando Enter."></i>
+                                </label>
+                                <div class="form-select-benefits input-container" id="input-container">
+                                    <label class="benefit-initial-text">Escribe y/o selecciona un beneficio del puesto de trabajo</label>
+                                    <div class="input-top" id="input-top">
+                                        <input type="hidden" id="benefits-storage" name="benefits_storage" value="{{benefits_storage}}">
+                                        <div id="selected-benefits">
+                                            {% if benefits_storage %}
+                                                {% for benefit in benefits_storage.split(', ') if benefit %}
+                                                    <div class="green-box" data-benefit="{{ benefit }}">
+                                                        {{ benefit }}
+                                                        <!-- Call the global removeBenefit function when the close button is clicked -->
+                                                        <span class="close-btn" onclick="removeBenefit(this.parentElement, '{{ benefit }}')">X</span>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <input type="text" id="benefit-input" placeholder="Escribe y/o selecciona beneficios del puesto de trabajo">
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="input-bottom">
+                                        <div class="benefit-box" data-benefit="Ticket restaurant">Ticket restaurante</div>
+                                        <div class="benefit-box" data-benefit="Dietas">Dietas</div>
+                                        <div class="benefit-box" data-benefit="Gastos adicionales">Gastos adicionales</div>
+                                        <div class="benefit-box" data-benefit="Seguro de vida">Seguro de vida</div>
+                                        <div class="benefit-box" data-benefit="Seguro de jubilación">Seguro de jubilación</div>
+                                        <div class="benefit-box" data-benefit="Ticket guardería">Ticket guardería</div>
+                                        <div class="benefit-box" data-benefit="Coche de empresa">Coche de empresa</div>
+                                        <div class="benefit-box" data-benefit="Ticket transporte">Ticket transporte</div>
+                                        <div class="benefit-box" data-benefit="Plaza de Parking">Plaza de Parking</div>
+                                        <div class="benefit-box" data-benefit="Servicio de lanzadera">Servicio de lanzadera</div>
+                                        <div class="benefit-box" data-benefit="Gimnasio">Gimnasio</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Requisitos y Funciones</h3>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="work-type">
+                                    Modalidad del Puesto
+                                </label>
+                                <select class="form-select default-input" id="work-type" name="work_type" value="{{work_type}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="presencial" {% if work_type == 'presencial' %}selected{% endif %}>Presencial</option>
+                                    <option value="híbrida" {% if work_type == 'híbrida' %}selected{% endif %}>Híbrido</option>
+                                    <option value="remota" {% if work_type == 'remota' %}selected{% endif %}>Remoto</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="driving-license">
+                                    Permiso de Conducir
+                                </label>
+                                <input type="text" class="form-control default-input" id="driving-license" name="driving_license"
+                                    placeholder="Ej. B, C1" value="{{driving_license}}">
+                            </div>
+                            <div class="checkbox-container hidden" id="VehicleCheckboxContainer">
+                                <input type="checkbox" id="vehicle" name="vehicle" value="True" {% if vehicle == 'True' %}checked{% endif %}>
+                                <label for="vehicle"> Coche propio </label>
+                            </div>
+                            <div class="col-md-12 p-1 pt-0">
+                                <label class="custom-label text-dark" for="skills">
+                                    Requisitos y Funciones
+                                    <i class="fas fa-info-circle info-icon" title="Indica las habilidades y funciones requeridas. Si se deja en blanco, se generan automáticamente."></i>
+                                </label>
+                                <textarea class="form-control default-input round-corners" id="skills" name="skills" placeholder="Ej. 3 años de experiencia en el sector. Diseño y desarrollo de aplicaciones web. Capacidad para comunicar de manera efectiva. Nivel alto de francés." style="height: 130px;">{{skills}}</textarea>
+                            </div>
+                        </div>
+                        <h3>Formato del Anuncio</h3>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="tone">
+                                    Línea de Negocio <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select default-input" id="business-unit" name="business_unit" value="{{business_unit}}" required name="business-unit">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="Fundación" {% if business_unit == 'Fundación' %}selected{% endif %}>Fundación</option>
+                                    <option value="LHH" {% if business_unit == 'LHH' %}selected{% endif %}>LHH</option>
+                                    <option value="Akkodis" {% if business_unit == 'Akkodis' %}selected{% endif %}>Akkodis</option>
+                                    <option value="Staffing" {% if business_unit == 'Staffing' %}selected{% endif %}>Staffing</option>
+                                    <option value="Outsourcing" {% if business_unit == 'Outsourcing' %}selected{% endif %}>Outsourcing</option>
+                                    <option value="The Adecco Group" {% if business_unit == 'The Adecco Group' %}selected{% endif %}>The Adecco Group</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0 hidden" id="language-container">
+                                <label class="custom-label text-dark" for="language">
+                                    Idioma
+                                </label>
+                                <select class="form-select default-input" id="language" name="language" value="{{language}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="español" {% if language == 'español' %}selected{% endif %}>Español</option>
+                                    <option value="catalán" {% if language == 'catalán' %}selected{% endif %}>Catalán</option>
+                                    <option value="inglés" {% if language == 'inglés' %}selected{% endif %}>Inglés</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row plr-10p">
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="template_name">
+                                    Plantilla
+                                </label>
+                                <select class="form-select" id="template-name" name="template_name" value={{template_name}} aria-placeholder="Seleccione el tipo de plantilla">
+                                    <option disabled selected>Selecciona una opción</option>
+                                    <option value="email_short" {% if template_name == 'email_short' %} selected {% endif %} data-values="{{template_email_short}}">Email (versión corta)</option>
+                                    <option value="email_long" {% if template_name == 'email_long' %} selected {% endif %} data-values="{{template_email_long}}">Email (versión larga)</option>
+                                    <option value="multiposting" {% if template_name == 'multiposting' %} selected {% endif %} data-values="{{template_multiposting}}">Multiposting</option>
+                                    <option value="linkedin_short" {% if template_name == 'linkedin_short' %} selected {% endif %} data-values="{{template_linkedin_short}}">LinkedIn (versión corta)</option>
+                                    <option value="linkedin_long" {% if template_name == 'linkedin_long' %} selected {% endif %} data-values="{{template_linkedin_long}}">LinkedIn (versión larga)</option>
+                                    <option value="personalizado" {% if template_name == 'personalizado' %} selected {% endif %} data-values="">Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 p-1 pt-0">
+                                <label class="custom-label text-dark" for="tone">
+                                    Tono
+                                </label>
+                                <select class="form-select default-input" id="tone" name="tone" value="{{tone}}">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="formal" {% if tone == 'formal' %}selected{% endif %}>Formal</option>
+                                    <option value="persuasivo" {% if tone == 'persuasivo' %}selected{% endif %}>Persuasivo</option>
+                                </select>
+                            </div>
+                            <textarea class="form-control default-input round-corners" placeholder="Construya su plantilla personalizada. 
+Acaba los encabezados con dos puntos (:) o en formato pregunta. 
+Toma como ejemplo las otras plantillas." id="template-structure" name="template_structure" value={{template_structure}} style="height: 300px;" rows="10" cols="10"></textarea>
+                        </div>
+                        <div class="checkbox-container" id="EmojisCheckboxContainer">
+                            <input type="checkbox" id="emojis" name="emojis" value="True" {% if emojis == 'True' %}checked{% endif %}>
+                            <label for="emoji">Generar con emojis 🙂</label>
+                        </div>
+                    </form>
+                    <div class="row px-0 py-0 my-0 rounded">
+                        <div class="row g-0">
+                            <button type="submit" form="upper-form" class="btn-primary mt-2" id="generateJobDescription" formaction="/generate">Generar Oferta de Trabajo</button>
+                            <form method="get" id="reset-form"></form>
+                            <button type="submit" form="reset-form" class="btn-secondary mt-2" id="clearFormBtn" formaction="/jpp">Resetear Parámetros</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <h3>Generador de Puestos de Trabajo</h3>
+                    <div class="row plr-10p" id="version-container" style="justify-content: flex-start;" hidden>
+                        <div class="col-md-2 p-1" id="version-1-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-1">Versión 1</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-1" id="version-2-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-2">Versión 2</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-1" id="version-3-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-3">Versión 3</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-1" id="version-4-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-4">Versión 4</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-1" id="version-5-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-5">Versión 5</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-1" id="version-6-container" hidden>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn-clicked" onClick="changeVersion(this)" id="version-6">Versión 6</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row plr-10p">
+                        <div class="col-md-6 p-1 pt-0" style="width: 100%;">
+                            <label class="custom-label text-dark" for="chat_response">
+                                Descripción del puesto de trabajo generada
+                            </label>
+                            <div class="form-control default-input round-corners" id="chat_response" style="max-height: 800px; min-height: 200px; overflow-y: auto;" name="chat_response" onClick="this.contentEditable='true'">
+                                {{ chat_response|safe }}
+                            </div>
+                            <div class="row g-0">
+                                <div class="col-md-12 p-1 pt-0">
+                                    <div class="alert">
+                                        El contenido de esta página esta generado por IA. Por favor, revisa todo antes de compartir.
+                                    </div>
+                                </div>
+                            <div class="row g-0">
+                                <div class="col-md-4 p-1 pt-0 rounded">
+                                    <button type="button" value="textarea" class="btn-secondary mt-2" id="copyJobAdvert" onClick="copyPlainJobDescription()">Copiar Descripción</button>
+                                </div>
+                                <div class="col-md-4 p-1 pt-0 rounded">
+                                    <button type="button" class="btn-primary mt-2" id="generateSummaryButton" onClick="generateSummary()" disabled>Generar Resumen</button>
+                                </div>
+                                <div class="col-md-4 p-1 pt-0 rounded">
+                                    <button type="button" class="btn-primary mt-2" onClick="generateQuestions()" id="generateQuestionsButton" disabled>Generar Preguntas</button>
+                                </div>
+                            </div>
+                            <div class="form-control-flex">
+                                <div class="label-container">
+                                    <label class="custom-label text-dark" id="questions" name="questions">Preguntas Entrevista
+                                        <i class="fas fa-info-circle info-icon" title="Selecciona el número de preguntas. Introduce, si quieres, el tema de las preguntas de acuerdo a la oferta generada."></i>
+                                    </label>
+                                </div>
+                                <div class="radio-container">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="few_questions" value="few_questions">
+                                    <label class="form-check-label" for="few_questions">3</label>
+                                </div>
+                                <div class="radio-container">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="some_questions" value="some_questions">
+                                    <label class="form-check-label" for="some_questions">5</label>
+                                </div>
+                                <div class="radio-container">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="many_questions" value="many_questions" checked>
+                                    <label class="form-check-label" for="many_questions">10</label>
+                                </div>
+                                <div class="button-container">
+                                    <input type="text" class="form-control default-input" id="questions_topic"
+                                    placeholder="Ej. requisitos" name="questions_topic"></input>
+                                    {{ questions_topic|safe }}
+                                </div>
+                            </div>
+                            <div class="form-control default-input round-corners" id="summary_display" style="max-height: 800px; min-height: 150px; overflow-y: auto;" name="summary_display" onClick="this.contentEditable='true'" hidden>
+                            </div>
+                            <div class="form-control default-input round-corners" id="questions_display" style="max-height: 800px; min-height: 150px; overflow-y: auto;" name="questions_display" onClick="this.contentEditable='true'" hidden>
+                            </div>
+                            <div class="row g-0 hidden" id="copyButtonsContainer">
+                                <div class="col-md-6 p-1 pt-0 rounded">
+                                    <button type="button" value="textarea" class="btn-secondary mt-2" id="copySummary" onClick="copyPlainSummary()">Copiar Resumen</button>
+                                </div>
+                                <div class="col-md-6 p-1 pt-0 rounded">
+                                    <button type="button" value="textarea" class="btn-secondary mt-2" id="copyQuestions" onClick="copyPlainQuestions()">Copiar Preguntas</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="static/js/main_script.js"></script>
+    <script src="static/js/template-utils.js"></script>
+    <script src="static/js/button-utils.js"></script>
+</body>
+</html>

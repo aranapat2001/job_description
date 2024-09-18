@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <title>GPT - Job Posting</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='TheAdeccoGroup-favicon.ico') }}">
+</head>
+
+<body>
+    <main>
+        <div>
+            <img src="{{ url_for('static', filename='images/The Adecco Group Brand.png') }}" alt="Adecco Logo"
+                height="192" />
+        </div>
+        <h2>Se ha producido un error. Espere unos minutos o cambie de parámetros y vuelva a intentarlo.</h2>
+        <form method="get" target="_blank" action="/jpp" style="text-align: center;">
+            <button type="submit" class="compute-button">Volver</button>
+        </form>
+    </main>
+</body>
+
+</html>
