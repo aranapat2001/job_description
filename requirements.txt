@@ -1,2 +1,5 @@
 openai
-flask
+flask[async]
+applicationinsights
+tldextract
+
