@@ -5,6 +5,7 @@ import json
 from flask import Flask, render_template, request, jsonify
 from applicationinsights.flask.ext import AppInsights
 from bs4 import BeautifulSoup
+from decouple import config
 from services.classes import *
 from services.builder import *
 from services.html_format import *
@@ -13,9 +14,9 @@ from services.utils import *
 
 # Define AzureOpenAI environment variables
 client = openai.AzureOpenAI(
-  azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
-  api_key=os.getenv("AZURE_OPENAI_API_KEY"),  
-  api_version=os.getenv("AZURE_OPENAI_API_VERSION")
+  azure_endpoint = config("AZURE_OPENAI_ENDPOINT"),
+  api_key=config("AZURE_OPENAI_API_KEY"),  
+  api_version=config("AZURE_OPENAI_API_VERSION")
 )
 
 # Define generator function
